@@ -22,7 +22,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Confirm GitHub account and repository setup
 - [x] Decide final project name
 - [x] Scaffold React frontend with TypeScript
-- [ ] Add React Router
+- [x] Add React Router
 - [ ] Scaffold Express backend with TypeScript
 - [ ] Add local PostgreSQL with Docker Compose
 - [ ] Add Prisma
