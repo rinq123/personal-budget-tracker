@@ -2,26 +2,26 @@
 
 ## Goal
 
-Build a full-stack personal budget tracker in one week using React, CSS, TypeScript, Express, Node/npm, REST APIs, Docker, and a relational database.
+Build a full-stack personal budget tracker using React, CSS, TypeScript, Express, Node/npm, REST APIs, Docker, and a relational database.
 
-The project should be useful enough to keep using after the learning week, but small enough to finish a working version.
+The project should be useful enough to keep using personally, while staying small enough to finish a working version.
 
 Working project name: personal-budget-tracker
 
-## Learning Rule
+## Project Rule
 
 Use this project to learn by building. When stuck, ask for explanation, debugging guidance, design tradeoffs, or documentation-style help rather than finished project code.
 
 ## Project Checklist
 
 - [x] Create project plan
-- [x] Create learning resources document
+- [x] Create project resources document
 - [x] Confirm Node.js and npm are installed
 - [x] Confirm Git is installed
 - [x] Confirm Docker Desktop is installed
 - [x] Confirm GitHub account and repository setup
 - [x] Decide final project name
-- [ ] Scaffold React frontend with TypeScript
+- [x] Scaffold React frontend with TypeScript
 - [ ] Add React Router
 - [ ] Scaffold Express backend with TypeScript
 - [ ] Add local PostgreSQL with Docker Compose
@@ -159,4 +159,4 @@ This should be compared against previous experience with MongoDB and Firebase:
 - Migrations
 - Local development
 - Deployment
-- Learning value
+- Personal project value

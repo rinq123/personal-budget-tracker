@@ -1,4 +1,4 @@
-# Learning Resources
+# Project Resources
 
 ## Search Terms
 
