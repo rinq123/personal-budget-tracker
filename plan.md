@@ -19,7 +19,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Confirm Node.js and npm are installed
 - [x] Confirm Git is installed
 - [x] Confirm Docker Desktop is installed
-- [ ] Confirm GitHub account and repository setup
+- [x] Confirm GitHub account and repository setup
 - [x] Decide final project name
 - [ ] Scaffold React frontend with TypeScript
 - [ ] Add React Router
