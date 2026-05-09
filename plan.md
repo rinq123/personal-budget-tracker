@@ -23,7 +23,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Decide final project name
 - [x] Scaffold React frontend with TypeScript
 - [x] Add React Router
-- [ ] Scaffold Express backend with TypeScript
+- [x] Scaffold Express backend with TypeScript
 - [ ] Add local PostgreSQL with Docker Compose
 - [ ] Add Prisma
 - [ ] Design first database schema
