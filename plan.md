@@ -24,7 +24,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Scaffold React frontend with TypeScript
 - [x] Add React Router
 - [x] Scaffold Express backend with TypeScript
-- [ ] Add local PostgreSQL with Docker Compose
+- [x] Add local PostgreSQL with Docker Compose
 - [ ] Add Prisma
 - [ ] Design first database schema
 - [ ] Add environment variable setup
