@@ -25,10 +25,10 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add React Router
 - [x] Scaffold Express backend with TypeScript
 - [x] Add local PostgreSQL with Docker Compose
-- [ ] Add Prisma
-- [ ] Design first database schema
-- [ ] Add environment variable setup
-- [ ] Add CORS configuration
+- [x] Add Prisma
+- [x] Design first database schema
+- [x] Add environment variable setup
+- [x] Add CORS configuration
 - [ ] Add request validation
 - [ ] Add JWT authentication
 - [ ] Build transaction REST API
