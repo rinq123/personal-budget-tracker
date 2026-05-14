@@ -29,7 +29,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Design first database schema
 - [x] Add environment variable setup
 - [x] Add CORS configuration
-- [ ] Add request validation
+- [x] Add request validation
 - [ ] Add JWT authentication
 - [ ] Build transaction REST API
 - [ ] Build category REST API
