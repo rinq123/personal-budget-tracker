@@ -30,7 +30,11 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add environment variable setup
 - [x] Add CORS configuration
 - [x] Add request validation
+- [ ] Add password hashing
+- [ ] Create users with Prisma during registration
+- [ ] Build login credential checking
 - [ ] Add JWT authentication
+- [ ] Add protected route middleware
 - [ ] Build transaction REST API
 - [ ] Build category REST API
 - [ ] Add pagination, filtering, and sorting
