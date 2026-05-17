@@ -30,8 +30,8 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add environment variable setup
 - [x] Add CORS configuration
 - [x] Add request validation
-- [ ] Add password hashing
-- [ ] Create users with Prisma during registration
+- [x] Add password hashing
+- [x] Create users with Prisma during registration
 - [ ] Build login credential checking
 - [ ] Add JWT authentication
 - [ ] Add protected route middleware
