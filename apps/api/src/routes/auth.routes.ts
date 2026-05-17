@@ -1,12 +1,51 @@
 import { Router } from "express";
-import { registerSchema } from "../schemas/auth.schemas.js";
+import { loginSchema, registerSchema } from "../schemas/auth.schemas.js";
 import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
 
 const authRouter = Router();
 
-authRouter.post('/login',(req, res) => {
-    res.status(200).json({status: "login post route"});
+authRouter.post('/login', async (req, res) => {
+    const result = loginSchema.safeParse(req.body);
+
+    if(!result.success){
+        res.status(400).json({
+            message: "invalid register request",
+            errors: result.error.flatten(),
+        });
+        return;
+    }
+
+    const { email, password } = result.data;
+
+    const existingUser = await prisma.user.findUnique({
+        where: { email },
+    });
+
+    if (!existingUser){
+        res.status(401).json({ message: " invalid email or password "});
+        return;
+    }
+
+    const passwordMatches = await bcrypt.compare(password, existingUser?.passwordHash);
+
+    if (!passwordMatches){
+        res.status(401).json({
+            message: "invalid email or password",
+        });
+        return;
+    }
+
+    const safeUser = {
+        id: existingUser.id,
+        email: existingUser.email,
+        createdAt: existingUser.createdAt,
+    };
+
+    res.status(200).json({ message : "successful login ", safeUser });
+
+
+
 });
 
 authRouter.post('/register', async (req, res) => {
