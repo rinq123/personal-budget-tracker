@@ -32,7 +32,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add request validation
 - [x] Add password hashing
 - [x] Create users with Prisma during registration
-- [ ] Build login credential checking
+- [x] Build login credential checking
 - [ ] Add JWT authentication
 - [ ] Add protected route middleware
 - [ ] Build transaction REST API

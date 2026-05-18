@@ -2,6 +2,7 @@ import { Router } from "express";
 import { loginSchema, registerSchema } from "../schemas/auth.schemas.js";
 import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
+import jwt from "jsonwebtoken";
 
 const authRouter = Router();
 
@@ -36,16 +37,26 @@ authRouter.post('/login', async (req, res) => {
         return;
     }
 
-    const safeUser = {
+    const jwtsecret = process.env.JWT_SECRET;
+
+    if(!jwtsecret){
+        throw new Error("JWT_SECRET is required");
+    }
+
+    const payload = { userId: existingUser.id };
+    const token = jwt.sign(payload, jwtsecret, {expiresIn: "1h" });
+
+    const user = {
         id: existingUser.id,
         email: existingUser.email,
         createdAt: existingUser.createdAt,
     };
 
-    res.status(200).json({ message : "successful login ", safeUser });
-
-
-
+    res.status(200).json({ 
+        message : "successful login ", 
+        user,
+        token,
+     });
 });
 
 authRouter.post('/register', async (req, res) => {
