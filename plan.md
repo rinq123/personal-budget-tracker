@@ -34,7 +34,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Create users with Prisma during registration
 - [x] Build login credential checking
 - [x] Add JWT authentication
-- [ ] Add protected route middleware
+- [x] Add protected route middleware
 - [ ] Build transaction REST API
 - [ ] Build category REST API
 - [ ] Add pagination, filtering, and sorting
