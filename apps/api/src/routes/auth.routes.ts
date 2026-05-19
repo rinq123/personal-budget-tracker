@@ -3,14 +3,9 @@ import { loginSchema, registerSchema } from "../schemas/auth.schemas.js";
 import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
-import { requireAuth } from "../middleware/auth.middleware.js";
-
 
 const authRouter = Router();
 
-authRouter.get("/test", requireAuth, async (req, res)=>{
-    res.status(200).json({message:"Works!"});
-});
 
 authRouter.post("/login", async (req, res) => {
   try {

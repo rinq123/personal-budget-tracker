@@ -35,8 +35,9 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Build login credential checking
 - [x] Add JWT authentication
 - [x] Add protected route middleware
-- [ ] Build transaction REST API
-- [ ] Build category REST API
+- [x] Build category REST API
+- [x] Configure Postman for local testing
+- [x] Build transaction REST API
 - [ ] Add pagination, filtering, and sorting
 - [ ] Build frontend pages and forms
 - [ ] Add Vitest unit tests
