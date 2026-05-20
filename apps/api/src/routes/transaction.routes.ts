@@ -70,7 +70,20 @@ transactionRouter.get("/", requireAuth, async(req, res)=>{
         take: limit,
     });
 
-    return res.status(200).json({ transactions });
+    const total = await prisma.transaction.count({
+        where,
+    });
+    const totalPages = Math.ceil(total / limit);
+
+    return res.status(200).json({
+        transactions,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages,
+        },
+    });
 });
 
 transactionRouter.post("/", requireAuth, async(req, res) => {
