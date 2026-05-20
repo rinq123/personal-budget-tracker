@@ -13,7 +13,7 @@ authRouter.post("/login", async (req, res) => {
 
     if (!result.success) {
       res.status(400).json({
-        message: "invalid register request",
+        message: "invalid login request",
         errors: result.error.flatten(),
       });
       return;
