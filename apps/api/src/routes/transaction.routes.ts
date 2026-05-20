@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.middleware.js";
 import { prisma } from "../lib/prisma.js";
-import { createTransactionSchema } from "../schemas/transaction.schemas.js";
+import { createTransactionSchema, transactionQuerySchema } from "../schemas/transaction.schemas.js";
+import type {
+    TransactionWhereInput,
+    TransactionOrderByWithRelationInput,
+} from "../../generated/prisma/models/Transaction.js";
 
 const transactionRouter = Router();
 
@@ -10,13 +14,60 @@ transactionRouter.get("/", requireAuth, async(req, res)=>{
         return res.status(401).json({message: "Unauthorised"});
     }
     const userId = req.userId;
-    const transactions = await prisma.transaction.findMany({
-        where:{
-            userId,
-        },
-        orderBy:{
-            createdAt: "desc",
+
+    const result = transactionQuerySchema.safeParse(req.query);
+    if(!result.success){
+        return res.status(400).json({
+            message: "Invalid transaction query",
+            errors: result.error.flatten(),
+        });
+    }
+
+    const{
+        page,
+        limit,
+        type,
+        categoryId,
+        from,
+        to,
+        sortBy,
+        sortOrder,
+    } = result.data;
+
+    const skip = (page - 1) * limit;
+
+    const where: TransactionWhereInput = {
+        userId
+    };
+
+    if (type){
+        where.type = type;
+    }
+
+    if(categoryId){
+        where.categoryId = categoryId;
+    }
+
+    if(from || to){
+        where.date = {} ;
+        if(from){
+            where.date.gte = from;
         }
+
+        if(to){
+            where.date.lte = to;
+        }
+    }
+
+    const orderBy : TransactionOrderByWithRelationInput = {
+        [sortBy] : sortOrder,
+    };
+
+    const transactions = await prisma.transaction.findMany({
+        where,
+        orderBy,
+        skip,
+        take: limit,
     });
 
     return res.status(200).json({ transactions });
