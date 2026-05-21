@@ -44,6 +44,8 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Build frontend register form
 - [x] Add basic dashboard route protection with localStorage token check
 - [x] Add basic logout from dashboard
+- [x] Add React Context API auth state
+- [x] Wrap app with AuthProvider
 - [ ] Build frontend pages and forms
 - [ ] Add reusable protected route handling
 - [ ] Add token expiry handling on the frontend
@@ -97,6 +99,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - Page-based routing
 - Authenticated and unauthenticated views
 - Basic localStorage-based auth state
+- React Context API for shared auth state
 - Protected route handling
 - Logout flow
 - Token expiry handling

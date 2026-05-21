@@ -2,12 +2,12 @@ import { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router";
 
 type RegisterAPIResponse = {
-    message?: string,
+    message?: string;
     user?: {
-        id? : string,
-        email?:string,
-        createdAt: string,
-        firstName? : string,
+        id? : string;
+        email?:string;
+        createdAt: string;
+        firstName? : string;
     };
 };
 

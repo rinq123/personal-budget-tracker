@@ -2,13 +2,13 @@ import { useState, type SubmitEvent} from "react";
 import { Link, useNavigate } from "react-router";
 
 type LoginApiResponse = {
-    message? : string,
-    token? : string,
+    message? : string;
+    token? : string;
     user? : {
-        id: string,
-        email: string,
-        createdAt: string,
-        firstName: string,
+        id: string;
+        email: string;
+        createdAt: string;
+        firstName: string;
     };
 };
 
