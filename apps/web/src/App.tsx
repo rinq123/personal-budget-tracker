@@ -1,36 +1,112 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router"
-import RegisterPage from "./pages/RegisterPage"
-import LoginPage from "./pages/LoginPage"
-import DashboardPage from "./pages/DashboardPage"
-import CategoriesPage from "./pages/CategoriesPage"
-import BudgetsPage from "./pages/BudgetsPage"
-import TransactionsPage from "./pages/TransactionsPage"
-import { AuthProvider } from "./context/AuthProvider"
+import { BrowserRouter, NavLink, Route, Routes } from "react-router";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import BudgetsPage from "./pages/BudgetsPage";
+import TransactionsPage from "./pages/TransactionsPage";
+import { AuthProvider } from "./context/AuthProvider";
+import { useAuth } from "./context/useAuth";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicOnlyRoute from "./routes/PublicOnlyRoute";
 
 function App() {
-
   return (
     <AuthProvider>
       <BrowserRouter>
-        {/* Navigation */}
-        <nav>
-          <NavLink to="/register">Register</NavLink> | {" "}
-          <NavLink to="/login">Login</NavLink> | {" "}
-        </nav>
-
-        {/* Routes */}
-        <Routes>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/budgets" element={<BudgetsPage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </AuthProvider>
-
-  )
+  );
 }
 
-export default App
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <>
+      <nav>
+        {isAuthenticated ? (
+          <>
+            <NavLink to="/dashboard">Dashboard</NavLink> |{" "}
+            <NavLink to="/categories">Categories</NavLink> |{" "}
+            <NavLink to="/transactions">Transactions</NavLink> |{" "}
+            <NavLink to="/budgets">Budgets</NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink to="/login">Login</NavLink> |{" "}
+            <NavLink to="/register">Register</NavLink>
+          </>
+        )}
+      </nav>
+
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicOnlyRoute>
+              <LoginPage />
+            </PublicOnlyRoute>
+          }
+        />
+
+        <Route
+          path="/register"
+          element={
+            <PublicOnlyRoute>
+              <RegisterPage />
+            </PublicOnlyRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <CategoriesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <TransactionsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/budgets"
+          element={
+            <ProtectedRoute>
+              <BudgetsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
+  );
+}
+
+export default App;

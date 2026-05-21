@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect } from "react";
-
+import { useAuth } from "../context/useAuth";
 
 
 function DashboardPage(){
 
     const navigate = useNavigate();
-    const firstName = localStorage.getItem("firstName");
-
+    const { logout, user } = useAuth();
+    const firstName = user?.firstName;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -16,11 +16,6 @@ function DashboardPage(){
         }
     }, [navigate])
 
-    function handleLogout(){
-        localStorage.removeItem("token");
-        localStorage.removeItem("firstName");
-        navigate("/login");
-    }
 
     return (
         <main>
@@ -39,7 +34,7 @@ function DashboardPage(){
             </section>
 
             <section>
-                <button type="button" onClick={handleLogout}>Logout</button>
+                <button type="button" onClick={logout}>Logout</button>
             </section>
         </main>
     );

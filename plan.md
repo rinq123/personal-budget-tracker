@@ -47,9 +47,8 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add React Context API auth state
 - [x] Wrap app with AuthProvider
 - [ ] Build frontend pages and forms
-- [ ] Add reusable protected route handling
-- [ ] Add token expiry handling on the frontend
-- [ ] Add current-user validation endpoint
+- [x] Add reusable protected route handling
+- [x] Add current-user validation endpoint
 - [ ] Add Vitest unit tests
 - [ ] Add Supertest API tests
 - [ ] Add GitHub Actions CI
@@ -170,9 +169,10 @@ Production-style deployment:
 - Spending charts
 - Savings goals
 - Multiple accounts
-- Refresh tokens
+- Refresh tokens 
 - Rate limiting on auth routes
 - OpenAPI documentation
+- Token expiry handling on the frontend
 
 ## Database Choice
 

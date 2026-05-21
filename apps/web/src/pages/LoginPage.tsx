@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent} from "react";
 import { Link, useNavigate } from "react-router";
+import { useAuth } from "../context/useAuth";
 
 type LoginApiResponse = {
     message? : string;
@@ -19,6 +20,7 @@ function LoginPage(){
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
 
     async function handleSubmit(event: SubmitEvent<HTMLFormElement>){
@@ -55,8 +57,7 @@ function LoginPage(){
                 return;
             }
 
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("firstName", data.user?.firstName);
+            login(data.token, data.user);
             navigate("/dashboard");
         } catch {
             setError("Could not connect to API");
