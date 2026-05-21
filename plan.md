@@ -39,7 +39,15 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Configure Postman for local testing
 - [x] Build transaction REST API
 - [x] Add pagination, filtering, and sorting
+- [x] Add first name to user registration and login responses
+- [x] Build frontend login form
+- [x] Build frontend register form
+- [x] Add basic dashboard route protection with localStorage token check
+- [x] Add basic logout from dashboard
 - [ ] Build frontend pages and forms
+- [ ] Add reusable protected route handling
+- [ ] Add token expiry handling on the frontend
+- [ ] Add current-user validation endpoint
 - [ ] Add Vitest unit tests
 - [ ] Add Supertest API tests
 - [ ] Add GitHub Actions CI
@@ -88,6 +96,10 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 
 - Page-based routing
 - Authenticated and unauthenticated views
+- Basic localStorage-based auth state
+- Protected route handling
+- Logout flow
+- Token expiry handling
 - Forms for transactions, categories, budgets, and account setup
 - Loading, error, and empty states
 - Dashboard summaries
@@ -143,6 +155,13 @@ Production-style deployment:
 
 ## Stretch Goals
 
+- Dashboard charts and pie graphs
+- Dashboard quick links to core sections
+- Profile menu or modal
+- User settings page
+- Profile picture support
+- AI-assisted spending insights
+- AI budget suggestions
 - Recurring transactions
 - CSV import/export
 - Spending charts

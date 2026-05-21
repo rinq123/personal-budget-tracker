@@ -1,24 +1,26 @@
-import { useState, type ChangeEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router";
 
 type RegisterAPIResponse = {
-    message?: string ;
+    message?: string,
     user?: {
-        id? : string;
-        email?:string;
-        createdAt: string;
+        id? : string,
+        email?:string,
+        createdAt: string,
+        firstName? : string,
     };
 };
 
 function RegisterPage(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    async function HandleSubmit( event: ChangeEvent<HTMLFormElement>){
+    async function HandleSubmit( event: SubmitEvent<HTMLFormElement>){
         event.preventDefault();
         setError("");
         setLoading(true);
@@ -32,7 +34,8 @@ function RegisterPage(){
                 },
                 body: JSON.stringify({
                     email,
-                    password
+                    password,
+                    firstName,
                 }),
             });
 
@@ -62,6 +65,17 @@ function RegisterPage(){
                         type="email"
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
+                        required
+                        />
+                </div>
+
+                <div>
+                    <label htmlFor="firstName">First Name</label>
+                        <input
+                        id="firstName"
+                        type="text"
+                        value={firstName}
+                        onChange={(event) => setFirstName(event.target.value)}
                         required
                         />
                 </div>

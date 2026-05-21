@@ -1,13 +1,14 @@
-import { useState, type ChangeEvent} from "react";
+import { useState, type SubmitEvent} from "react";
 import { Link, useNavigate } from "react-router";
 
 type LoginApiResponse = {
-    message? : string;
+    message? : string,
     token? : string,
     user? : {
         id: string,
         email: string,
-        createdAt: string;
+        createdAt: string,
+        firstName: string,
     };
 };
 
@@ -20,7 +21,7 @@ function LoginPage(){
     const navigate = useNavigate();
 
 
-    async function handleSubmit(event: ChangeEvent<HTMLFormElement>){
+    async function handleSubmit(event: SubmitEvent<HTMLFormElement>){
         event.preventDefault();
         setError("");
         setLoading(true);
@@ -48,9 +49,15 @@ function LoginPage(){
                 setError("Login response did not include a token");
                 return;
             }
+            
+            if(!data.user?.firstName){
+                setError("Login response did not include a first name");
+                return;
+            }
 
             localStorage.setItem("token", data.token);
-            navigate("/");
+            localStorage.setItem("firstName", data.user?.firstName);
+            navigate("/dashboard");
         } catch {
             setError("Could not connect to API");
         } finally {
@@ -97,7 +104,6 @@ function LoginPage(){
         </main>
     );
 }
-
 
 
 export default LoginPage

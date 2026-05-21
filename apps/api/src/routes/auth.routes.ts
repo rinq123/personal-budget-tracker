@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 
 const authRouter = Router();
 
+// LOGIN ENDPOINT
 
 authRouter.post("/login", async (req, res) => {
   try {
@@ -54,6 +55,7 @@ authRouter.post("/login", async (req, res) => {
     const user = {
       id: existingUser.id,
       email: existingUser.email,
+      firstName: existingUser.firstName,
       createdAt: existingUser.createdAt,
     };
 
@@ -67,6 +69,8 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
+// REGISTER ENDPOINT
+
 authRouter.post("/register", async (req, res) => {
   try {
     const result = registerSchema.safeParse(req.body);
@@ -79,7 +83,7 @@ authRouter.post("/register", async (req, res) => {
       return;
     }
 
-    const { email, password } = result.data;
+    const { email, password, firstName } = result.data;
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -96,11 +100,13 @@ authRouter.post("/register", async (req, res) => {
       data: {
         email,
         passwordHash,
+        firstName,
       },
       select: {
         id: true,
         email: true,
         createdAt: true,
+        firstName: true,
       },
     });
 
