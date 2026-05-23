@@ -52,6 +52,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Replace budgets with fixed payments feature
 - [x] Build fixed payments REST API
 - [x] Build fixed payments frontend page
+- [x] Verify current frontend/backend build checks
 - [ ] Add Vitest unit tests
 - [ ] Add Supertest API tests
 - [ ] Add GitHub Actions CI
