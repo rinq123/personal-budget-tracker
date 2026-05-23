@@ -3,7 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import CategoriesPage from "./pages/CategoriesPage";
-import BudgetsPage from "./pages/BudgetsPage";
+import FixedPaymentsPage from "./pages/FixedPaymentsPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import { AuthProvider } from "./context/AuthProvider";
 import { useAuth } from "./context/useAuth";
@@ -31,7 +31,7 @@ function AppRoutes() {
             <NavLink to="/dashboard">Dashboard</NavLink> |{" "}
             <NavLink to="/categories">Categories</NavLink> |{" "}
             <NavLink to="/transactions">Transactions</NavLink> |{" "}
-            <NavLink to="/budgets">Budgets</NavLink>
+            <NavLink to="/fixed-payments">Fixed Payments</NavLink>
           </>
         ) : (
           <>
@@ -88,10 +88,10 @@ function AppRoutes() {
         />
 
         <Route
-          path="/budgets"
+          path="/fixed-payments"
           element={
             <ProtectedRoute>
-              <BudgetsPage />
+              <FixedPaymentsPage />
             </ProtectedRoute>
           }
         />

@@ -21,7 +21,7 @@ function DashboardPage(){
         <main>
             <section>
                 <h1>Welcome, {firstName}</h1>
-                <p>Track your spending, manage your categories and plan your budget.</p>
+                <p>Track your spending, manage your categories and understand your fixed monthly costs.</p>
             </section>
 
             <section className="quick-actions">
@@ -29,7 +29,7 @@ function DashboardPage(){
                 <div>
                     <Link to ="/transactions">View transactions</Link>
                     <Link to ="/categories">Manage categories</Link>
-                    <Link to ="/budgets">View budgets</Link>
+                    <Link to ="/fixed-payments">Fixed payments</Link>
                 </div>
             </section>
 

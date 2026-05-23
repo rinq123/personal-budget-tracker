@@ -46,9 +46,12 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add basic logout from dashboard
 - [x] Add React Context API auth state
 - [x] Wrap app with AuthProvider
-- [ ] Build frontend pages and forms
+- [x] Build frontend pages and forms for the current scope
 - [x] Add reusable protected route handling
 - [x] Add current-user validation endpoint
+- [x] Replace budgets with fixed payments feature
+- [x] Build fixed payments REST API
+- [x] Build fixed payments frontend page
 - [ ] Add Vitest unit tests
 - [ ] Add Supertest API tests
 - [ ] Add GitHub Actions CI
@@ -82,7 +85,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 
 ## Backend Concepts
 
-- REST resources for users, accounts, categories, transactions, budgets, and reports
+- REST resources for users, accounts, categories, transactions, fixed payments, and reports
 - Request validation
 - Error handling
 - Authentication with JWT
@@ -102,7 +105,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - Protected route handling
 - Logout flow
 - Token expiry handling
-- Forms for transactions, categories, budgets, and account setup
+- Forms for transactions, categories, fixed payments, and account setup
 - Loading, error, and empty states
 - Dashboard summaries
 - Filtering by month, category, account, and transaction type
@@ -151,7 +154,8 @@ Production-style deployment:
 - Add, edit, delete, and list transactions
 - Create categories
 - View monthly income, expenses, and remaining balance
-- Set monthly category budgets
+- Add, edit, delete, and list fixed monthly income/outgoings
+- Calculate expected monthly remaining balance after fixed payments
 - Filter and sort transactions
 - Protect user data behind authentication
 
@@ -164,7 +168,9 @@ Production-style deployment:
 - Profile picture support
 - AI-assisted spending insights
 - AI budget suggestions
-- Recurring transactions
+- Monthly budget planning
+- Bank-imported transactions
+- Recurring transaction generation from fixed payments
 - CSV import/export
 - Spending charts
 - Savings goals

@@ -3,6 +3,7 @@ import cors from "cors"
 import authRouter from "./routes/auth.routes.js";
 import categoryRouter from "./routes/category.routes.js";
 import transactionRouter from "./routes/transaction.routes.js";
+import fixedPaymentRouter from "./routes/fixed-payment.routes.js";
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/categories", categoryRouter);
 app.use("/transactions", transactionRouter);
+app.use("/fixed-payments", fixedPaymentRouter);
 
 
 app.get('/health', (_req, res) => {

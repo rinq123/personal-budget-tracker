@@ -23,27 +23,27 @@ enum CategoryType {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  passwordHash String
-  firstName    String
-  categories   Category[]
-  transactions Transaction[]
-  budgets      Budget[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  firstName     String
+  categories    Category[]
+  transactions  Transaction[]
+  fixedPayments FixedPayment[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Category {
-  id           String        @id @default(cuid())
-  name         String
-  type         CategoryType
-  userId       String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
-  budgets      Budget[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id            String         @id @default(cuid())
+  name          String
+  type          CategoryType
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  fixedPayments FixedPayment[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@unique([userId, name, type])
   @@index([userId])
@@ -66,18 +66,19 @@ model Transaction {
   @@index([categoryId])
 }
 
-model Budget {
-  id          String   @id @default(cuid())
+model FixedPayment {
+  id          String          @id @default(cuid())
+  name        String
   amountMinor Int
-  month       Int
-  year        Int
+  type        TransactionType
+  dueDay      Int?
   userId      String
-  categoryId  String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  categoryId  String?
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
-  @@unique([userId, categoryId, month, year])
-  @@index([userId, year, month])
+  @@index([userId, type])
+  @@index([categoryId])
 }

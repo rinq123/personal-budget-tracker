@@ -207,6 +207,36 @@ li span {
   overflow-wrap: anywhere;
 }
 
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.summary-card {
+  min-height: 112px;
+  padding: 18px;
+  border: 1px solid #d8e0da;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(23, 32, 38, 0.05);
+}
+
+.summary-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: #5d6b65;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.summary-card strong {
+  display: block;
+  color: #172026;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -280,6 +310,10 @@ li span {
   li {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
   }
 
   button + button,

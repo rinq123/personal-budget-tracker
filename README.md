@@ -58,11 +58,11 @@ Database:
 
 The frontend and backend are separated into two separate apps.
 
-The frontend handles user-facing pages such as login, register, dashboard, transactions, and budgets.
+The frontend handles user-facing pages such as login, register, dashboard, categories, transactions, and fixed payments.
 
 The backend handles the API routes, Zod validation, authentication, business logic, and database access.
 
-The database stores user data, such as users, categories, transcations and budgets.
+The database stores user data, such as users, categories, transactions, and fixed payments.
 
 Basic Request Flow:
 
@@ -129,6 +129,18 @@ Current API routes :
  - GET /health
  - POST /auth/register
  - POST /auth/login
+ - GET /categories
+ - POST /categories
+ - PUT /categories/:id
+ - DELETE /categories/:id
+ - GET /transactions
+ - POST /transactions
+ - PUT /transactions/:id
+ - DELETE /transactions/:id
+ - GET /fixed-payments
+ - POST /fixed-payments
+ - PUT /fixed-payments/:id
+ - DELETE /fixed-payments/:id
 
 
  ## Planned Features
@@ -139,7 +151,7 @@ Current API routes :
 - Middleware for protecting routes
 - Transaction CRUD
 - Category CRUD
-- Budget Tracking
+- Fixed payment tracking
 - Pagination, Filters, and Sorting
 - Unit and API tests
 - GitHub Actions CI
