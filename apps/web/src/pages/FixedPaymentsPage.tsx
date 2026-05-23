@@ -1,5 +1,6 @@
 import { useEffect, useState, type SubmitEvent } from "react";
 import { useAuth } from "../context/useAuth";
+import { API_URL } from "../lib/api";
 
 type PaymentType = "INCOME" | "EXPENSE";
 
@@ -94,7 +95,7 @@ function FixedPaymentsPage() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await fetch("http://localhost:4000/categories", {
+        const response = await fetch(`${API_URL}/categories`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -123,7 +124,7 @@ function FixedPaymentsPage() {
       setError("");
 
       try {
-        const response = await fetch("http://localhost:4000/fixed-payments", {
+        const response = await fetch(`${API_URL}/fixed-payments`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -176,7 +177,7 @@ function FixedPaymentsPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/fixed-payments", {
+      const response = await fetch(`${API_URL}/fixed-payments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -241,7 +242,7 @@ function FixedPaymentsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/fixed-payments/${selectedFixedPayment.id}`,
+        `${API_URL}/fixed-payments/${selectedFixedPayment.id}`,
         {
           method: "PUT",
           headers: {
@@ -284,7 +285,7 @@ function FixedPaymentsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/fixed-payments/${selectedFixedPayment.id}`,
+        `${API_URL}/fixed-payments/${selectedFixedPayment.id}`,
         {
           method: "DELETE",
           headers: {

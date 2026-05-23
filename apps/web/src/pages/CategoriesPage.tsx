@@ -1,6 +1,7 @@
 import { useAuth } from '../context/useAuth';
 import { useEffect, useState } from "react";
 import { type SubmitEvent } from 'react';
+import { API_URL } from "../lib/api";
 
 type Category = {
     id: string;
@@ -42,7 +43,7 @@ function CategoriesPage() {
     useEffect(() => {
         async function fetchCategories() {
             try {
-                const response = await fetch('http://localhost:4000/categories', {
+                const response = await fetch(`${API_URL}/categories`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ function CategoriesPage() {
         try {
             event.preventDefault();
 
-            const response = await fetch('http://localhost:4000/categories', {
+            const response = await fetch(`${API_URL}/categories`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ function CategoriesPage() {
         }
 
         try {
-            const response = await fetch(`http://localhost:4000/categories/${selectedCategory.id}`, {
+            const response = await fetch(`${API_URL}/categories/${selectedCategory.id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -147,7 +148,7 @@ function CategoriesPage() {
 
         try {
             const response = await fetch(
-                `http://localhost:4000/categories/${selectedCategory.id}`,
+                `${API_URL}/categories/${selectedCategory.id}`,
                 {
                     method: "PUT",
                     headers: {

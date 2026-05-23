@@ -1,6 +1,7 @@
 import { useState, type SubmitEvent} from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../context/useAuth";
+import { API_URL } from "../lib/api";
 
 type LoginApiResponse = {
     message? : string;
@@ -29,7 +30,7 @@ function LoginPage(){
         setLoading(true);
 
         try{
-            const response = await fetch("http://localhost:4000/auth/login",{
+            const response = await fetch(`${API_URL}/auth/login`,{
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json",

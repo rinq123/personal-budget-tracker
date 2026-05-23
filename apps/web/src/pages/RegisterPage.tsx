@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { API_URL } from "../lib/api";
 
 type RegisterAPIResponse = {
     message?: string;
@@ -27,7 +28,7 @@ function RegisterPage(){
 
 
         try{
-            const response = await fetch("http://localhost:4000/auth/register",{
+            const response = await fetch(`${API_URL}/auth/register`,{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",

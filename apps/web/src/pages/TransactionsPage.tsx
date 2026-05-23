@@ -1,5 +1,6 @@
 import { useEffect, useState, type SubmitEvent } from "react";
 import { useAuth } from "../context/useAuth";
+import { API_URL } from "../lib/api";
 
 type TransactionType = "INCOME" | "EXPENSE";
 type SortBy = "date" | "amountMinor" | "createdAt";
@@ -100,7 +101,7 @@ function TransactionsPage() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await fetch("http://localhost:4000/categories", {
+        const response = await fetch(`${API_URL}/categories`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -145,7 +146,7 @@ function TransactionsPage() {
         }
 
         const response = await fetch(
-          `http://localhost:4000/transactions?${query.toString()}`,
+          `${API_URL}/transactions?${query.toString()}`,
           {
             method: "GET",
             headers: {
@@ -202,7 +203,7 @@ function TransactionsPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/transactions", {
+      const response = await fetch(`${API_URL}/transactions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -264,7 +265,7 @@ function TransactionsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/transactions/${selectedTransaction.id}`,
+        `${API_URL}/transactions/${selectedTransaction.id}`,
         {
           method: "PUT",
           headers: {
@@ -308,7 +309,7 @@ function TransactionsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/transactions/${selectedTransaction.id}`,
+        `${API_URL}/transactions/${selectedTransaction.id}`,
         {
           method: "DELETE",
           headers: {
