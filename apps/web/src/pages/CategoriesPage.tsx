@@ -194,8 +194,8 @@ function CategoriesPage() {
             </button>
 
             {selectedCategory && (
-                <div>
-                    <div>
+                <div className="modal-backdrop" role="dialog" aria-modal="true">
+                    <div className="modal-panel">
                         {!isEditingCategory ? (
                             <>
                                 <h2>{selectedCategory.name}</h2>
@@ -255,8 +255,8 @@ function CategoriesPage() {
             )}
 
             {isCreateModalOpen && (
-                <div>
-                    <div>
+                <div className="modal-backdrop" role="dialog" aria-modal="true">
+                    <div className="modal-panel">
                         <h2>Create Category</h2>
                         <form onSubmit={handleCreateCategory}>
                             <div>

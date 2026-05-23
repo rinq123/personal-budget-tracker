@@ -207,7 +207,7 @@ li span {
   overflow-wrap: anywhere;
 }
 
-main > div {
+.modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 20;
@@ -217,7 +217,7 @@ main > div {
   background: rgba(23, 32, 38, 0.45);
 }
 
-main > div > div {
+.modal-panel {
   width: min(520px, 100%);
   max-height: calc(100vh - 40px);
   overflow: auto;
@@ -228,25 +228,25 @@ main > div > div {
   box-shadow: 0 20px 60px rgba(23, 32, 38, 0.25);
 }
 
-main > div > div > p {
+.modal-panel > p {
   margin-bottom: 18px;
 }
 
-main > div form {
+.modal-panel form {
   max-width: none;
 }
 
-main > div button {
+.modal-panel button {
   margin-top: 4px;
 }
 
-main > section:nth-of-type(2) div {
+.quick-actions div {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-main > section:nth-of-type(2) a {
+.quick-actions a {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
@@ -257,7 +257,7 @@ main > section:nth-of-type(2) a {
   color: #25332d;
 }
 
-main > section:nth-of-type(2) a:hover {
+.quick-actions a:hover {
   border-color: #95aaa0;
   background: #edf4f0;
   text-decoration: none;

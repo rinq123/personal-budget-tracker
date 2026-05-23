@@ -24,7 +24,7 @@ function DashboardPage(){
                 <p>Track your spending, manage your categories and plan your budget.</p>
             </section>
 
-            <section>
+            <section className="quick-actions">
                 <h2>Quick actions</h2>
                 <div>
                     <Link to ="/transactions">View transactions</Link>

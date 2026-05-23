@@ -419,8 +419,8 @@ function TransactionsPage() {
       </section>
 
       {isCreateModalOpen && (
-        <div>
-          <div>
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="modal-panel">
             <h2>Create Transaction</h2>
 
             <form onSubmit={handleCreateTransaction}>
@@ -508,8 +508,8 @@ function TransactionsPage() {
       )}
 
       {selectedTransaction && (
-        <div>
-          <div>
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="modal-panel">
             {!isEditingTransaction ? (
               <>
                 <h2>{selectedTransaction.description}</h2>
