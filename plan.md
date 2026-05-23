@@ -160,6 +160,13 @@ Production-style deployment:
 - Filter and sort transactions
 - Protect user data behind authentication
 
+## Product Decisions And Challenges
+
+- Replaced the original budgets idea with fixed payments because the first version needed a more immediately useful personal feature.
+- Manual transactions are useful for practising CRUD, protected routes, filtering, sorting, and pagination, but they are less practical as a daily-use feature without future bank integration.
+- Fixed payments better match the main personal use case: tracking predictable monthly income and committed outgoings such as salary, rent, subscriptions, bills, and savings.
+- Monthly budget planning remains a future feature because it needs a more detailed product design around category limits, time periods, reports, and alerts.
+
 ## Stretch Goals
 
 - Dashboard charts and pie graphs
