@@ -53,7 +53,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Build fixed payments REST API
 - [x] Build fixed payments frontend page
 - [x] Verify current frontend/backend build checks
-- [ ] Add Vitest unit tests
+- [x] Add Vitest unit tests
 - [x] Add Supertest API tests
 - [x] Add GitHub Actions CI
 - [ ] Set up Supabase production database
