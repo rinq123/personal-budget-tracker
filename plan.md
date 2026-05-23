@@ -54,8 +54,8 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Build fixed payments frontend page
 - [x] Verify current frontend/backend build checks
 - [ ] Add Vitest unit tests
-- [ ] Add Supertest API tests
-- [ ] Add GitHub Actions CI
+- [x] Add Supertest API tests
+- [x] Add GitHub Actions CI
 - [ ] Set up Supabase production database
 - [ ] Set up Azure Static Web Apps frontend hosting
 - [ ] Set up Azure Container Apps API hosting
