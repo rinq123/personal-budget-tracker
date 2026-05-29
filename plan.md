@@ -56,11 +56,12 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add Vitest unit tests
 - [x] Add Supertest API tests
 - [x] Add GitHub Actions CI
-- [ ] Set up Supabase production database
-- [ ] Set up Azure Static Web Apps frontend hosting
-- [ ] Set up Azure Container Apps API hosting
-- [ ] Add deployment automation
-- [ ] Write final README notes
+- [x] Set up Supabase production database
+- [x] Set up Netlify for Web hosting
+- [x] Set up Render for API Hosting
+- [x] Add deployment automation
+- [x] Write final README notes
+- [x] Add Rate limiting using Redis
 
 ## Core Stack
 
@@ -134,8 +135,8 @@ This should teach service boundaries, environment configuration, networking betw
 
 Production-style deployment:
 
-- Host the React client with Azure Static Web Apps
-- Host the Express API with Azure Container Apps
+- Host the React client with Netlify
+- Host the Express API with Render
 - Host production PostgreSQL with Supabase
 - Use GitHub Actions for automated tests before deployment
 - Optionally use GitHub Actions later for deployment automation
@@ -184,7 +185,6 @@ Production-style deployment:
 - Savings goals
 - Multiple accounts
 - Refresh tokens 
-- Rate limiting on auth routes
 - OpenAPI documentation
 - Token expiry handling on the frontend
 
