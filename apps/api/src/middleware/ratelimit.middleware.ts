@@ -12,7 +12,6 @@ const redis = new Redis(redisUrl);
 
 export async function rateLimiter(req: Request, res: Response, next: NextFunction){
     const ip = req.ip;
-    const currentTime = Date.now();
     const key = `rate-limit:${ip}`;
 
     const limit = 100; // Max Requests
@@ -21,7 +20,6 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
     const requests = await redis.incr(key);
 
     if(requests === 1){
-        // Set expire key to the time window on first request
         await redis.expire(key, windowTime);
     }
 
