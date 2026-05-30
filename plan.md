@@ -62,6 +62,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add deployment automation
 - [x] Write final README notes
 - [x] Add Rate limiting using Redis
+- [x] Add Token expiry handling on the frontend
 
 ## Core Stack
 
@@ -186,7 +187,7 @@ Production-style deployment:
 - Multiple accounts
 - Refresh tokens 
 - OpenAPI documentation
-- Token expiry handling on the frontend
+
 
 ## Database Choice
 
