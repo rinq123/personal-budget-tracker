@@ -64,6 +64,65 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add Rate limiting using Redis
 - [x] Add Token expiry handling on the frontend
 
+### Next Phase Checklist
+
+- [x] Design the budget database model
+- [ ] Add budget Prisma migration
+- [ ] Add budget validation schemas
+- [ ] Build budget REST API endpoints
+- [ ] Add budget API tests
+- [ ] Build budget summary endpoint
+- [ ] Add budget summary API tests
+- [ ] Build frontend budgets page
+- [ ] Add budget create, edit, and delete forms
+- [ ] Show budget spent, remaining, percentage used, and over-budget state
+- [ ] Add month filtering for budgets
+- [ ] Add dashboard budget summary cards
+- [ ] Add frontend build and lint verification for budget work
+
+### Forecasting Checklist
+
+- [ ] Review fixed payment scheduling model
+- [ ] Decide whether to replace simple due day with recurring schedule fields
+- [ ] Use fixed payments to forecast expected monthly income
+- [ ] Use fixed payments to forecast expected monthly outgoings
+- [ ] Use fixed payments to suggest starting budget amounts
+- [ ] Add projected transaction concept for expected fixed payments
+- [ ] Prevent projected fixed payments from being counted as actual transactions
+
+### Bank Integration Checklist
+
+- [ ] Research bank API options and constraints
+- [ ] Decide whether to use Open Banking directly or a provider abstraction
+- [ ] Design imported transaction data model
+- [ ] Add imported transaction storage
+- [ ] Add bank account connection flow
+- [ ] Add bank transaction sync endpoint
+- [ ] Add duplicate detection for imported transactions
+- [ ] Match imported bank transactions against projected fixed payments
+- [ ] Mark matched fixed payments as confirmed by actual transactions
+
+### Categorisation Checklist
+
+- [ ] Design category rule data model
+- [ ] Add manual category correction flow
+- [ ] Save user corrections as future category rules
+- [ ] Categorise imported transactions by merchant name
+- [ ] Categorise imported transactions by user rules
+- [ ] Categorise imported transactions by bank-provided category when available
+- [ ] Categorise imported transactions by fixed payment matching
+- [ ] Mark uncertain transactions as uncategorised
+- [ ] Track categorisation source for each transaction
+
+### Security And Auth Checklist
+
+- [ ] Add refresh token flow
+- [ ] Move refresh tokens to httpOnly cookies
+- [ ] Add API request wrapper for shared 401 handling
+- [ ] Log user out on expired or invalid API responses
+- [ ] Add current-user revalidation on app startup
+- [ ] Review localStorage token tradeoffs before production use
+
 ## Core Stack
 
 - Frontend: React, TypeScript, CSS

@@ -30,6 +30,7 @@ model User {
   categories    Category[]
   transactions  Transaction[]
   fixedPayments FixedPayment[]
+  budgets       Budget[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -42,6 +43,7 @@ model Category {
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions  Transaction[]
   fixedPayments FixedPayment[]
+  budgets       Budget[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -80,5 +82,22 @@ model FixedPayment {
   updatedAt   DateTime        @updatedAt
 
   @@index([userId, type])
+  @@index([categoryId])
+}
+
+model Budget {
+  id          String   @id @default(cuid())
+  amountMinor Int
+  month       Int
+  year        Int
+  userId      String
+  categoryId  String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, categoryId, month, year])
+  @@index([userId, year, month])
   @@index([categoryId])
 }
