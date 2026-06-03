@@ -67,7 +67,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 ### Next Phase Checklist
 
 - [x] Design the budget database model
-- [ ] Add budget Prisma migration
+- [x] Add budget Prisma migration
 - [ ] Add budget validation schemas
 - [ ] Build budget REST API endpoints
 - [ ] Add budget API tests
