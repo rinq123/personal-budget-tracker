@@ -88,8 +88,6 @@ model FixedPayment {
 model Budget {
   id          String   @id @default(cuid())
   amountMinor Int
-  month       Int
-  year        Int
   userId      String
   categoryId  String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -97,7 +95,7 @@ model Budget {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@unique([userId, categoryId, month, year])
-  @@index([userId, year, month])
+  @@unique([userId, categoryId])
+  @@index([userId])
   @@index([categoryId])
 }

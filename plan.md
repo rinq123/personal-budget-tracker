@@ -68,17 +68,18 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 
 - [x] Design the budget database model
 - [x] Add budget Prisma migration
-- [ ] Add budget validation schemas
-- [ ] Build budget REST API endpoints
+- [x] Add budget validation schemas
+- [ ] Build budget template CRUD REST API endpoints
 - [ ] Add budget API tests
 - [ ] Build budget summary endpoint
 - [ ] Add budget summary API tests
 - [ ] Build frontend budgets page
 - [ ] Add budget create, edit, and delete forms
 - [ ] Show budget spent, remaining, percentage used, and over-budget state
-- [ ] Add month filtering for budgets
+- [ ] Add month/year filtering for budget summaries
 - [ ] Add dashboard budget summary cards
 - [ ] Add frontend build and lint verification for budget work
+- [ ] Later, add historical budget snapshots
 
 ### Forecasting Checklist
 
@@ -226,14 +227,15 @@ Production-style deployment:
 
 ## Next Phase Scope
 
-- Reintroduce budgets as monthly category limits.
-- Add budget database models and migrations.
+- Reintroduce budgets as reusable monthly category templates.
+- Add budget database models and migrations for one active budget per user/category.
 - Add budget REST endpoints for create, read, update, and delete.
-- Add a budget summary endpoint that compares budget amount against actual transaction spending for the selected month.
+- Add a budget summary endpoint that compares budget template amounts against actual transaction spending for the selected month/year.
 - Build a frontend budgets page with create/edit/delete forms.
 - Show spent amount, remaining amount, percentage used, and over-budget state.
 - Add dashboard budget summary cards after the core budget page works.
 - Keep fixed payments as forecasting data, not as the source of truth for actual spending.
+- Later, add historical budget snapshots so previous months can preserve the budget/spending state at month close.
 - Later, use fixed payments to suggest budget amounts and to match expected payments against bank-imported transactions.
 
 ## Product Decisions And Challenges
@@ -241,7 +243,7 @@ Production-style deployment:
 - The project direction is now to separate planned money, actual money, and spending limits clearly.
 - Fixed payments should represent forecasted recurring income and outgoings, such as salary, rent, bills, subscriptions, savings, and other predictable commitments.
 - Transactions should represent actual money movement. Manual transactions are useful for learning CRUD and app state, but bank-imported transactions should eventually become the main source of truth for actual income and spending.
-- Budgets should return as a core planning feature. A budget is a planned monthly cap or target, usually attached to a category.
+- Budgets should return as a core planning feature. A budget is a reusable monthly cap or target for one category.
 - Categories should connect fixed payments, transactions, and budgets so the app can compare expected spending, actual spending, and planned limits.
 - Fixed payments should help forecast the month and suggest budgets, but they should not replace budgets.
 - Bank integration should not make fixed payments redundant. Fixed payments can later be matched against imported bank transactions to confirm whether expected payments actually happened.
@@ -252,7 +254,7 @@ The application should move toward three connected concepts:
 
 - Fixed payments: forecasted recurring income and outgoings.
 - Transactions: actual income and outgoings.
-- Budgets: planned monthly category limits or targets.
+- Budgets: reusable monthly category limits.
 
 The basic budget calculation should be:
 
@@ -268,7 +270,7 @@ Actual grocery transactions in June: GBP 185
 Remaining grocery budget: GBP 115
 ```
 
-Budgets should not store the remaining amount directly. The app should calculate remaining budget from the budget amount and the matching transactions. This keeps the budget accurate when transactions are added, edited, deleted, or imported from a bank API.
+Budgets should store the planned monthly amount for a specific category. They should not store the remaining amount directly. The app should calculate remaining budget from the budget template amount and the matching transactions for a selected month/year. This keeps the current summary accurate when transactions are added, edited, deleted, or imported from a bank API.
 
 Budget displays should focus first on clear progress indicators:
 
@@ -281,10 +283,11 @@ Charts can be added later. Progress bars are likely clearer than pie charts for 
 
 ## Budget Planning Direction
 
-- Add monthly category budgets.
-- Add a backend budget summary endpoint that returns budget amount, spent amount, remaining amount, percentage used, and over-budget status.
-- Let users copy budgets from the previous month.
-- Later, add budget templates so default monthly budgets can be generated automatically.
+- Add reusable monthly category budget templates.
+- Add a backend budget summary endpoint that takes month/year and returns budget amount, spent amount, remaining amount, percentage used, and over-budget status.
+- Let users create, edit, delete, and list budget templates first.
+- Limit users to one budget template per category.
+- Later, add historical snapshots so previous months can preserve closed-month budget values and spending totals.
 - Later, suggest budget amounts from fixed payments and recent transaction history.
 - Use month length only for pacing insights, not for the total budget amount. For example, a GBP 300 monthly groceries budget can stay GBP 300 in both 30-day and 31-day months, but the daily pace will be different.
 
