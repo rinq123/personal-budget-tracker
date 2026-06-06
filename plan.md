@@ -69,7 +69,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Design the budget database model
 - [x] Add budget Prisma migration
 - [x] Add budget validation schemas
-- [ ] Build budget template CRUD REST API endpoints
+- [x] Build budget template CRUD REST API endpoints
 - [ ] Add budget API tests
 - [ ] Build budget summary endpoint
 - [ ] Add budget summary API tests

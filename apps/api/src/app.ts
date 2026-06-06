@@ -5,6 +5,7 @@ import categoryRouter from "./routes/category.routes.js";
 import transactionRouter from "./routes/transaction.routes.js";
 import fixedPaymentRouter from "./routes/fixed-payment.routes.js";
 import { rateLimiter } from "./middleware/ratelimit.middleware.js";
+import budgetRouter from "./routes/budget.routes.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/auth", authRouter);
 app.use("/categories", categoryRouter);
 app.use("/transactions", transactionRouter);
 app.use("/fixed-payments", fixedPaymentRouter);
+app.use("/budgets", budgetRouter);
 
 
 app.get('/health', (_req, res) => {
