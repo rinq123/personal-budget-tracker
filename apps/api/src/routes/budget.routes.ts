@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { prisma } from '../lib/prisma.js';
-import { createBudgetsSchema } from '../schemas/budget.schemas.js';
+import { budgetSummaryQuerySchema, createBudgetsSchema } from '../schemas/budget.schemas.js';
 import { budgetQuerySchema } from '../schemas/budget.schemas.js';
 import { Prisma } from '../../generated/prisma/client.js';
 
@@ -36,6 +36,101 @@ budgetRouter.get("/", requireAuth, async(req, res) => {
     });
 
     return res.status(200).json({ budgets });
+});
+
+//Budgets summary endpoint - different from root get
+
+budgetRouter.get("/summary", requireAuth, async(req, res) =>{
+    if (!req.userId){
+        return res.status(401).json({ message: "Unauthorised "});
+    }
+    const result = budgetSummaryQuerySchema.safeParse(req.query);
+
+    if(!result.success){
+        return res.status(400).json({
+            message: "Invalid budget summary query",
+            errors: result.error.flatten(),
+        });
+    }
+
+    const { month, year } = result.data;
+
+
+    //JS months are 0-based: Jan = 0, Jun = 5
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+    const endDate = new Date(Date.UTC(year, month, 1));
+
+    const budgets = await prisma.budget.findMany({
+        where:{
+            userId: req.userId,
+        },
+        include:{
+            category: true,
+        },
+        orderBy:{
+            category:{
+                name: "asc",
+            },
+        },
+    });
+
+    if(budgets.length === 0){
+        return res.status(200).json({ summaries: []});
+    }
+
+    const categoryIds = budgets.map((budget) => budget.categoryId);
+
+    const transactions = await prisma.transaction.findMany({
+        where:{
+            userId: req.userId,
+            type: "EXPENSE",
+            categoryId:{
+                in: categoryIds,
+            },
+            date:{
+                gte: startDate,
+                lt: endDate,
+            },
+        },
+        select:{
+            amountMinor: true,
+            categoryId: true,
+        },
+    });
+
+    const spentByCategory = new Map<string, number>();
+
+    for(const transaction of transactions){
+        if(!transaction.categoryId) continue;
+        const currentTotal = spentByCategory.get(transaction.categoryId) ?? 0;
+        spentByCategory.set(
+            transaction.categoryId,
+            currentTotal + transaction.amountMinor,
+        );
+    }
+
+
+    const summaries = budgets.map((budget ) =>{
+        const spentMinor = spentByCategory.get(budget.categoryId) ?? 0;
+        const remainingMinor = budget.amountMinor - spentMinor;
+        const percentageUsed =
+            budget.amountMinor > 0
+                ? Number(((spentMinor / budget.amountMinor) * 100).toFixed(2))
+                : 0;
+
+        return {
+            budgetId: budget.id,
+            categoryId: budget.categoryId,
+            categoryName: budget.category.name,
+            budgetAmountMinor: budget.amountMinor,
+            spentMinor,
+            remainingMinor,
+            percentageUsed,
+            isOverBudget: spentMinor > budget.amountMinor,
+        };
+    });
+
+    return res.status(200).json({ summaries });
 });
 
 

@@ -71,7 +71,7 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [x] Add budget validation schemas
 - [x] Build budget template CRUD REST API endpoints
 - [ ] Add budget API tests
-- [ ] Build budget summary endpoint
+- [x] Build budget summary endpoint
 - [ ] Add budget summary API tests
 - [ ] Build frontend budgets page
 - [ ] Add budget create, edit, and delete forms
