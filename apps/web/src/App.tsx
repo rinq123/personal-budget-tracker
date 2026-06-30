@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { useAuth } from "./context/useAuth";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicOnlyRoute from "./routes/PublicOnlyRoute";
+import BudgetsPage from "./pages/BudgetsPage";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function AppRoutes() {
             <NavLink to="/dashboard">Dashboard</NavLink> |{" "}
             <NavLink to="/categories">Categories</NavLink> |{" "}
             <NavLink to="/transactions">Transactions</NavLink> |{" "}
-            <NavLink to="/fixed-payments">Fixed Payments</NavLink>
+            <NavLink to="/fixed-payments">Fixed Payments</NavLink> |{" "}
+            <NavLink to="/budgets">Budgets</NavLink>
           </>
         ) : (
           <>
@@ -97,6 +99,16 @@ function AppRoutes() {
         />
 
         <Route
+          path="budgets"
+          element={
+            <ProtectedRoute>
+              <BudgetsPage />
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
           path="/"
           element={
             <ProtectedRoute>
@@ -104,6 +116,8 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        
       </Routes>
     </>
   );
