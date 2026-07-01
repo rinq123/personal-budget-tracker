@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback} from "react";
 import { useAuth } from "../context/useAuth";
 import { API_URL } from "../lib/api";
 
@@ -52,13 +52,18 @@ type BudgetSummary = {
     isOverBudget: boolean;
 };
 
+
 const currencyFormatter = new Intl.NumberFormat("en-GB", {
     style: "currency",
     currency: "GBP",
 });
 
-function amountMinorToDisplay(amountMinor: number){
+function amountMinorToDisplay(amountMinor: number) {
     return currencyFormatter.format(amountMinor / 100);
+}
+
+function amountInputToMinor(amount: string){
+    return Math.round(Number(amount) * 100);
 }
 
 
@@ -77,73 +82,126 @@ function BudgetsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [categoryId, setCategoryId] = useState("");
+    const [amount, setAmount] = useState("");
+
     const expenseCategories = categories.filter(
         (category) => category.type === "EXPENSE",
     );
 
     const activeBudgetCount = budgets.length;
 
-    useEffect(() => {
-        async function fetchBudgetPageData() {
-            setLoading(true);
-            setError("");
+    function resetCreateForm(){
+        setCategoryId("");
+        setAmount("");
+    }
 
-            try {
-                const [categoriesResponse, budgetsResponse, summariesResponse] =
-                    await Promise.all([
-                        fetch(`${API_URL}/categories`, {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }),
-                        fetch(`${API_URL}/budgets`, {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }),
-                        fetch(`${API_URL}/budgets/summary?month=${month}&year=${year}`, {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }),
-                    ]);
+    async function handleCreateBudget(event: React.SyntheticEvent<HTMLFormElement>){
+        event.preventDefault();
+        setError("");
 
-                const categoriesData =
-                    (await categoriesResponse.json()) as CategoriesResponse;
-                const budgetsData = (await budgetsResponse.json()) as BudgetsResponse;
-                const summariesData =
-                    (await summariesResponse.json()) as BudgetSummariesResponse;
+        const amountMinor = amountInputToMinor(amount);
 
-                if (!categoriesResponse.ok) {
-                    setError("Failed to load categories");
-                    return;
-                }
-
-                if (!budgetsResponse.ok) {
-                    setError("Failed to load budgets");
-                    return;
-                }
-
-                if (!summariesResponse.ok) {
-                    setError("Failed to load budget summaries");
-                    return;
-                }
-
-                setCategories(categoriesData.categories);
-                setBudgets(budgetsData.budgets);
-                setSummaries(summariesData.summaries);
-            } catch {
-                setError("Could not connect to the API");
-            } finally {
-                setLoading(false);
-            }
+        if(!categoryId){
+            setError("Please select a category");
+            return;
         }
 
-        fetchBudgetPageData();
+        if(!Number.isFinite(amountMinor) || amountMinor <= 0){
+            setError("Amount must be greater than zero");
+            return;
+        }
+
+        try{
+            const response = await fetch(`${API_URL}/budgets`, {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    categoryId,
+                    amountMinor,
+                }),
+            });
+
+            await response.json();
+
+            if(!response.ok){
+                setError("Failed to create budget");
+                return;
+            }
+
+            resetCreateForm();
+            setIsCreateModalOpen(false);
+            await fetchBudgetPageData();
+        } catch {
+            setError("Could not connect to the API");
+        }
+    }
+
+    const fetchBudgetPageData = useCallback(async () => {
+        setLoading(true);
+        setError("");
+
+        try {
+            const [categoriesResponse, budgetsResponse, summariesResponse] =
+                await Promise.all([
+                    fetch(`${API_URL}/categories`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }),
+                    fetch(`${API_URL}/budgets`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }),
+
+                    fetch(`${API_URL}/budgets/summary?month=${month}&year=${year}`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    })
+                ]);
+
+            const categoriesData = (await categoriesResponse.json()) as CategoriesResponse;
+            const budgetsData = (await budgetsResponse.json()) as BudgetsResponse;
+            const summariesData = (await summariesResponse.json()) as BudgetSummariesResponse;
+
+            if (!categoriesResponse.ok) {
+                setError("Failed to load categories");
+                return;
+            }
+
+            if (!budgetsResponse.ok) {
+                setError("Failed to load budgets");
+                return;
+            }
+
+            if (!summariesResponse.ok) {
+                setError("Failed to load budget summaries");
+                return;
+            }
+
+            setCategories(categoriesData.categories);
+            setBudgets(budgetsData.budgets);
+            setSummaries(summariesData.summaries);
+        } catch {
+            setError("Could not connect to the API");
+        } finally {
+            setLoading(false);
+        }
     }, [token, month, year]);
+
+    useEffect(() => {
+        fetchBudgetPageData();
+    }, [fetchBudgetPageData]);
+
 
     return (
         <main>
@@ -171,6 +229,61 @@ function BudgetsPage() {
                     onChange={(event) => setYear(Number(event.target.value))}
                 />
             </section>
+
+            <section>
+                <button type="button" onClick={() => setIsCreateModalOpen(true)}>
+                    Add Budget
+                </button>
+            </section>
+
+            {isCreateModalOpen && (
+                <div className="modal-backdrop" role="dialog" aria-modal="true">
+                    <div className="modal-panel">
+                        <h2>Create Budget</h2>
+                        <form onSubmit={handleCreateBudget}>
+                            <div>
+                                <label htmlFor="budget-category">Category</label>
+                                <select
+                                    id="budget-category"
+                                    value={categoryId}
+                                    onChange={(event) => setCategoryId(event.target.value)}
+                                >
+                                    <option value="">Select a category</option>
+                                    {categories
+                                        .filter((category) => category.type === "EXPENSE")
+                                        .map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="budget-amount">Monthly amout</label>
+                                <input
+                                    id="budget-amount"
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    value={amount}
+                                    onChange={(event) => setAmount(event.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="modal-actions">
+                                <button type="submit">Create</button>
+                                <button 
+                                type="button" 
+                                onClick={() => {resetCreateForm(); setIsCreateModalOpen(false)}}>
+                                    Cancel
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <section>
                 <div>Budget templates: {activeBudgetCount}</div>

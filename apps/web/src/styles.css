@@ -270,6 +270,12 @@ li span {
   margin-top: 4px;
 }
 
+.modal-actions{
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
 .quick-actions div {
   display: flex;
   flex-wrap: wrap;
