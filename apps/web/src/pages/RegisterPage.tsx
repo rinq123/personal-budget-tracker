@@ -4,6 +4,13 @@ import { API_URL } from "../lib/api";
 
 type RegisterAPIResponse = {
     message?: string;
+    errors?:{
+        fieldErrors?:{
+            email?: string[];
+            password?: string[];
+            firstName?: string[];
+        };
+    };
     user?: {
         id? : string;
         email?:string;
@@ -43,7 +50,17 @@ function RegisterPage(){
             const data = (await response.json()) as RegisterAPIResponse;
 
             if(!response.ok){
-                setError(data.message ?? "Register failed");
+                const passwordError = data.errors?.fieldErrors?.password?.[0];
+                const emailError = data.errors?.fieldErrors?.email?.[0];
+                const firstNameError = data.errors?.fieldErrors?.firstName?.[0];
+
+                setError(
+                    passwordError ??
+                    emailError ??
+                    firstNameError ??
+                    data.message ??
+                    "Register failed"
+                );
                 return;
             }
 
