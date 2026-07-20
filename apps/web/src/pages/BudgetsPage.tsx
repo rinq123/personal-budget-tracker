@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback} from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../context/useAuth";
 import { API_URL } from "../lib/api";
 
@@ -62,10 +62,13 @@ function amountMinorToDisplay(amountMinor: number) {
     return currencyFormatter.format(amountMinor / 100);
 }
 
-function amountInputToMinor(amount: string){
+function amountInputToMinor(amount: string) {
     return Math.round(Number(amount) * 100);
 }
 
+function amountMinorToInput(amountMinor: number) {
+    return (amountMinor / 100).toFixed(2);
+}
 
 
 function BudgetsPage() {
@@ -86,38 +89,60 @@ function BudgetsPage() {
     const [categoryId, setCategoryId] = useState("");
     const [amount, setAmount] = useState("");
 
+    const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
+    const [isEditingBudget, setIsEditingBudget] = useState(false);
+
+    const [editCategoryId, setEditCategoryId] = useState("");
+    const [editAmount, setEditAmount] = useState("");
+
     const expenseCategories = categories.filter(
         (category) => category.type === "EXPENSE",
     );
 
     const activeBudgetCount = budgets.length;
 
-    function resetCreateForm(){
+    function handleStartEdit() {
+        if (!selectedBudget) {
+            return;
+        }
+
+        setEditCategoryId(selectedBudget.categoryId);
+        setEditAmount(amountMinorToInput(selectedBudget.amountMinor));
+        setIsEditingBudget(true);
+    }
+
+    function handleSelectedBudget(budgetId: string) {
+        const matchingBudget = budgets.find((budget) => budget.id === budgetId) ?? null;
+        setSelectedBudget(matchingBudget);
+        setIsEditingBudget(false);
+    }
+
+    function resetCreateForm() {
         setCategoryId("");
         setAmount("");
     }
 
-    async function handleCreateBudget(event: React.SyntheticEvent<HTMLFormElement>){
+    async function handleCreateBudget(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         setError("");
 
         const amountMinor = amountInputToMinor(amount);
 
-        if(!categoryId){
+        if (!categoryId) {
             setError("Please select a category");
             return;
         }
 
-        if(!Number.isFinite(amountMinor) || amountMinor <= 0){
+        if (!Number.isFinite(amountMinor) || amountMinor <= 0) {
             setError("Amount must be greater than zero");
             return;
         }
 
-        try{
+        try {
             const response = await fetch(`${API_URL}/budgets`, {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json",
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
@@ -128,13 +153,90 @@ function BudgetsPage() {
 
             await response.json();
 
-            if(!response.ok){
+            if (!response.ok) {
                 setError("Failed to create budget");
                 return;
             }
 
             resetCreateForm();
             setIsCreateModalOpen(false);
+            await fetchBudgetPageData();
+        } catch {
+            setError("Could not connect to the API");
+        }
+    }
+
+    async function handleUpdateBudget(event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setError("");
+
+        if(!selectedBudget){
+            return;
+        }
+
+        const amountMinor = amountInputToMinor(editAmount);
+
+        if(!editCategoryId){
+            setError("Please select a category");
+            return;
+        }
+
+        if(!Number.isFinite(amountMinor) || amountMinor <= 0){
+            setError("Amount must be greater than zero");
+            return;
+        }
+
+        try{
+            const response = await fetch(`${API_URL}/budgets/${selectedBudget.id}`,{
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    categoryId: editCategoryId,
+                    amountMinor,
+                }),
+            });
+
+            await response.json();
+            
+            if(!response.ok){
+                setError("Failed to update budget");
+                return;
+            }
+
+            setSelectedBudget(null);
+            setIsEditingBudget(false);
+            await fetchBudgetPageData();
+        } catch {
+            setError("Could not connect to the API");
+        }
+    }
+
+    async function handleDeleteBudget(){
+        setError("");
+
+
+        if(!selectedBudget){
+            return;
+        }
+
+        try{
+            const response = await fetch(`${API_URL}/budgets/${selectedBudget.id}`, {
+                method: "DELETE",
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if(!response.ok){
+                setError("Failed to delete budget");
+                return;
+            }
+
+            setSelectedBudget(null);
+            setIsEditingBudget(false);
             await fetchBudgetPageData();
         } catch {
             setError("Could not connect to the API");
@@ -260,7 +362,7 @@ function BudgetsPage() {
                             </div>
 
                             <div>
-                                <label htmlFor="budget-amount">Monthly amout</label>
+                                <label htmlFor="budget-amount">Monthly amount</label>
                                 <input
                                     id="budget-amount"
                                     type="number"
@@ -273,14 +375,94 @@ function BudgetsPage() {
                             </div>
                             <div className="modal-actions">
                                 <button type="submit">Create</button>
-                                <button 
-                                type="button" 
-                                onClick={() => {resetCreateForm(); setIsCreateModalOpen(false)}}>
+                                <button
+                                    type="button"
+                                    onClick={() => { resetCreateForm(); setIsCreateModalOpen(false) }}>
                                     Cancel
                                 </button>
                             </div>
 
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {selectedBudget && (
+                <div className="modal-backdrop" role="dialog" aria-modal="true">
+                    <div className="modal-panel">
+                        {!isEditingBudget ? (
+                            <>
+                                <h2>{selectedBudget.category.name}</h2>
+                                <p>{amountMinorToDisplay(selectedBudget.amountMinor)}</p>
+
+                                <div className="modal-actions">
+                                    <button type="button" onClick={handleStartEdit}>
+                                        Edit
+                                    </button>
+
+                                    <button type="button" onClick={handleDeleteBudget}>
+                                        Delete
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSelectedBudget(null);
+                                            setIsEditingBudget(false);
+                                        }}
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h2>Edit Budget</h2>
+
+                                <form onSubmit={handleUpdateBudget}>
+                                    <div>
+                                        <label htmlFor="edit-budget-category">Category</label>
+                                        <select
+                                            id="edit-budget-category"
+                                            value={editCategoryId}
+                                            onChange={(event) => setEditCategoryId(event.target.value)}
+                                        >
+                                            {categories
+                                                .filter((category) => category.type === "EXPENSE")
+                                                .map((category) => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))}
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="edit-budget-amount">Monthly amount</label>
+                                        <input
+                                            id="edit-budget-amount"
+                                            type="number"
+                                            min="0.01"
+                                            step="0.01"
+                                            value={editAmount}
+                                            onChange={(event) => setEditAmount(event.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="modal-actions">
+                                        <button type="submit">Save</button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsEditingBudget(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </>
+                        )}
                     </div>
                 </div>
             )}
@@ -304,6 +486,13 @@ function BudgetsPage() {
                                 <div>Remaining: {amountMinorToDisplay(summary.remainingMinor)}</div>
                                 <div>Used: {summary.percentageUsed}%</div>
                                 <div>{summary.isOverBudget ? "Over budget" : "Within Budget"}</div>
+
+                                <button
+                                    type="button"
+                                    onClick={() => handleSelectedBudget(summary.budgetId)}
+                                >
+                                    ...
+                                </button>
                             </li>
                         ))}
                     </ul>
