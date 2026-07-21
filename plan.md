@@ -73,12 +73,12 @@ Use this project to learn by building. When stuck, ask for explanation, debuggin
 - [ ] Add budget API tests
 - [x] Build budget summary endpoint
 - [ ] Add budget summary API tests
-- [ ] Build frontend budgets page
-- [ ] Add budget create, edit, and delete forms
-- [ ] Show budget spent, remaining, percentage used, and over-budget state
-- [ ] Add month/year filtering for budget summaries
+- [x] Build frontend budgets page
+- [x] Add budget create, edit, and delete forms
+- [x] Show budget spent, remaining, percentage used, and over-budget state
+- [x] Add month/year filtering for budget summaries
 - [ ] Add dashboard budget summary cards
-- [ ] Add frontend build and lint verification for budget work
+- [x] Add frontend build and lint verification for budget work
 - [ ] Later, add historical budget snapshots
 
 ### Forecasting Checklist
